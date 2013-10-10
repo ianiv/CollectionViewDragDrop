@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface BLDragDropFlowLayout : UICollectionViewFlowLayout
-@property (strong, nonatomic) NSIndexPath *floatingIndex;
-@property (assign, nonatomic) CGPoint floatingCenter;
+@property (strong, nonatomic) NSIndexPath *fromIndex;
+//@property (assign, nonatomic) CGPoint floatingCenter;
 @end

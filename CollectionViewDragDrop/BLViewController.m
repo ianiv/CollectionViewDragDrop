@@ -12,8 +12,10 @@
 @interface BLViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) UICollectionViewCell *targetCell;
 @property (strong, nonatomic) NSIndexPath *fromIndex;
+@property (strong, nonatomic) NSIndexPath *toIndex;
 @property (strong, nonatomic) UILongPressGestureRecognizer *longPressGesture;
 @property (strong, nonatomic) UIPanGestureRecognizer *panGesture;
+@property (strong, nonatomic) UIView *cellView;
 @end
 
 @implementation BLViewController
@@ -74,43 +76,61 @@ static NSString *reuseIdentifier = @"CellIdentifier";
             return;
         }
         NSLog(@"Selected %d", targetIndex.item);
-        self.fromIndex = targetIndex;
-        layout.floatingIndex = targetIndex;
-        layout.floatingCenter = [gestureRecognizer locationInView:self.collectionView];
+        self.fromIndex = self.toIndex = targetIndex;
+        layout.fromIndex = targetIndex;
 
         self.targetCell = [self.collectionView cellForItemAtIndexPath:targetIndex];
         self.targetCell.backgroundColor = [UIColor redColor];
-        [self.collectionView performBatchUpdates:^{
-                    [layout invalidateLayout];
-        }
-                                      completion:nil];
+        UIView *cellView = [self.targetCell snapshotViewAfterScreenUpdates:YES];
+        self.cellView = cellView;
+        [self.collectionView addSubview:cellView];
+        cellView.center = self.targetCell.center;
+        [UIView animateWithDuration:0.1f animations:^{
+            cellView.center = [gestureRecognizer locationInView:self.collectionView];
+        }];
+        [layout invalidateLayout];
     }
     else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-//        self.targetCell.backgroundColor = [UIColor grayColor];
-        self.targetCell = nil;
-        self.fromIndex = nil;
-        layout.floatingIndex = nil;
-        [self.collectionView performBatchUpdates:^{
-            [layout invalidateLayout];
+        UICollectionViewLayoutAttributes *attributes = [layout layoutAttributesForItemAtIndexPath:self.toIndex];
+        [UIView animateWithDuration:0.1f
+                              delay:0
+                            options:0//UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             NSLog(@"%f, %f to %f, %f", self.cellView.center.x, self.cellView.center.y, attributes.center.x, attributes.center.y);
+            self.cellView.center = attributes.center;
         }
-                                      completion:^(BOOL finished) {
-                                          
-                                      }];
+                         completion:^(BOOL finished) {
+                             [self.cellView removeFromSuperview];
+                             self.cellView = nil;
+                             self.targetCell = nil;
+                             self.fromIndex = nil;
+                             self.toIndex = nil;
+                             layout.fromIndex = nil;
+                             [layout invalidateLayout];
+                         }];
     }
 }
 
 - (void)fingerMoved:(UILongPressGestureRecognizer *)gestureRecognizer
 {
-    CGPoint location = [gestureRecognizer locationInView:self.collectionView];
-    BLDragDropFlowLayout *layout = (BLDragDropFlowLayout *)self.collectionView.collectionViewLayout;
+    if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        CGPoint location = [gestureRecognizer locationInView:self.collectionView];
+        BLDragDropFlowLayout *layout = (BLDragDropFlowLayout *)self.collectionView.collectionViewLayout;
 
 
-    // Update the cell's location
-    layout.floatingCenter = location;
+        // Update the cell's location
+        self.cellView.center = location;
 
-    // Find the position of the placeholder
+        // Find the position of the placeholder
+        NSIndexPath *targetIndex = [self.collectionView indexPathForItemAtPoint:[gestureRecognizer locationInView:self.collectionView]];
+        if (targetIndex == nil) {
+            return;
+        }
 
-    [layout invalidateLayout];
+        layout.fromIndex = targetIndex;
+        [self.collectionView moveItemAtIndexPath:self.toIndex toIndexPath:targetIndex];
+        self.toIndex = targetIndex;
+    }
 }
 
 #pragma mark UICollectionViewDataSource

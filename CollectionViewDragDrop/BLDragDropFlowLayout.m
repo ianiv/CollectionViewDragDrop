@@ -14,9 +14,10 @@
 {
     NSArray *attributesArray = [super layoutAttributesForElementsInRect:rect];
     [attributesArray enumerateObjectsUsingBlock:^(UICollectionViewLayoutAttributes *attributes, NSUInteger idx, BOOL *stop) {
-        if (self.floatingIndex != nil && [attributes.indexPath isEqual:self.floatingIndex]) {
-            attributes.center = self.floatingCenter;
-            attributes.zIndex = 1;
+        if (self.fromIndex != nil && [attributes.indexPath isEqual:self.fromIndex]) {
+//            attributes.center = self.floatingCenter;
+//            attributes.zIndex = 1;
+            attributes.hidden = YES;
         }
     }];
     return attributesArray;
@@ -24,9 +25,10 @@
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.floatingIndex isEqual:indexPath]) {
+    if ([self.fromIndex isEqual:indexPath]) {
         UICollectionViewLayoutAttributes *attributes = [super layoutAttributesForItemAtIndexPath:indexPath];
-        attributes.center = self.floatingCenter;
+//        attributes.center = self.floatingCenter;
+        attributes.hidden = YES;
         return attributes;
     }
     return [super layoutAttributesForItemAtIndexPath:indexPath];
