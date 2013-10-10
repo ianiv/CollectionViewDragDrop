@@ -22,6 +22,7 @@
 		69E0F1631805D707002F8E07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E0F1421805D707002F8E07 /* UIKit.framework */; };
 		69E0F16B1805D707002F8E07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 69E0F1691805D707002F8E07 /* InfoPlist.strings */; };
 		69E0F16D1805D707002F8E07 /* CollectionViewDragDropTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E0F16C1805D707002F8E07 /* CollectionViewDragDropTests.m */; };
+		69E0F1781805DD6E002F8E07 /* BLDragDropFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E0F1771805DD6E002F8E07 /* BLDragDropFlowLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,8 @@
 		69E0F1681805D707002F8E07 /* CollectionViewDragDropTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CollectionViewDragDropTests-Info.plist"; sourceTree = "<group>"; };
 		69E0F16A1805D707002F8E07 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		69E0F16C1805D707002F8E07 /* CollectionViewDragDropTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewDragDropTests.m; sourceTree = "<group>"; };
+		69E0F1761805DD6E002F8E07 /* BLDragDropFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLDragDropFlowLayout.h; sourceTree = "<group>"; };
+		69E0F1771805DD6E002F8E07 /* BLDragDropFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLDragDropFlowLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +125,8 @@
 				69E0F1571805D707002F8E07 /* BLViewController.m */,
 				69E0F1591805D707002F8E07 /* Images.xcassets */,
 				69E0F1451805D707002F8E07 /* Supporting Files */,
+				69E0F1761805DD6E002F8E07 /* BLDragDropFlowLayout.h */,
+				69E0F1771805DD6E002F8E07 /* BLDragDropFlowLayout.m */,
 			);
 			path = CollectionViewDragDrop;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69E0F1781805DD6E002F8E07 /* BLDragDropFlowLayout.m in Sources */,
 				69E0F1581805D707002F8E07 /* BLViewController.m in Sources */,
 				69E0F14F1805D707002F8E07 /* BLAppDelegate.m in Sources */,
 				69E0F14B1805D707002F8E07 /* main.m in Sources */,
